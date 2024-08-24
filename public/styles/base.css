@@ -1,0 +1,112 @@
+:root {
+    --font-main: 'articulat-cf';
+    --font-heavy: 'articulat-heavy-cf';
+    --font-weight-normal: 400;
+    --font-weight-demi-bold: 700;
+    --font-weight-bold: 800;
+    --font-weight-heavy: 900;
+    --shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.3);
+}
+
+/* Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, section, summary,
+time, mark, audio, video, picture {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+/* Skip to content link */
+nav[aria-label="Accessibility links"] {
+    position: absolute;
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+
+    &:focus-within {
+        position: fixed;
+        height: auto;
+        width: auto;
+        margin: 0;
+        overflow: visible;
+
+        & a {
+            display: block;
+            padding: 10px 15px;
+            outline: 3px solid #E6AF2E;
+            font-size: 1.2em;
+            background-color: white;
+        }
+    }
+}
+
+.header__navigation ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+    font-size: 2em;
+    border-bottom: 2px solid #c2c2c2;
+    line-height: 1.5;
+
+    & li {
+        display: inline;
+        &:not(:last-child) {
+            margin-right: 10px;
+        }
+        & a {
+            padding: 10px 10px 5px 10px;
+            &:link {
+                color: white;
+                text-decoration: none;
+            }
+            &:visited {
+                color: white;
+                text-decoration: none;
+            }
+            &:hover {
+                color: rgb(237, 235, 235);
+                text-decoration: underline;
+            }
+            &:active {
+                color: black;
+                background: white;
+                text-decoration: underline;
+            }
+            &:focus {
+                outline: 2px solid rgb(237, 235, 235);
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+body {
+    min-height: 100vh;
+    font-family: var(--font-main), Arial, sans-serif;
+    color: white;
+    margin: 0 1.5em;
+    line-height: 1.5;
+
+    background-color: #000000;
+    /*opacity: 0.8;*/
+    /*background-image:  radial-gradient(#5aa02c 0.75px, transparent 0.75px), radial-gradient(#5aa02c 0.75px, #000000 0.75px);*/
+    /*background-size: 30px 30px;*/
+    /*background-position: 0 0,15px 15px;*/
+}

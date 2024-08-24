@@ -1,3 +1,6 @@
 mysql
 app
 .idea
+.env
+.env.production
+node_modules/
