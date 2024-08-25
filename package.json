@@ -1,0 +1,17 @@
+{
+  "name": "kiosk-php",
+  "version": "1.0.0",
+  "description": "Kiosk/dashboard built with PHP",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node ./esbuild.config.mjs"
+  },
+  "author": "Tommy Oldfield",
+  "license": "ISC",
+  "dependencies": {
+    "temporal-polyfill": "^0.2.5"
+  },
+  "devDependencies": {
+    "esbuild": "0.23.1"
+  }
+}

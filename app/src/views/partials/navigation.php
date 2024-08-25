@@ -1,5 +1,5 @@
 <nav aria-label="Accessibility links"><a href="#content-begin">Skip to content</a></nav>
-
+<p id="current-time"></p>
 <header>
     <div class="header__wrapper">
         <nav aria-label="Main navigation" class="header__navigation" id="nav-list">

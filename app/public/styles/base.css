@@ -57,6 +57,14 @@ nav[aria-label="Accessibility links"] {
     }
 }
 
+#current-time {
+    text-align: center;
+    font-weight: var(--font-weight-bold);
+    font-size: 2em;
+
+    margin: 0.5em 0 0 0;
+}
+
 .header__navigation ul {
     list-style: none;
     padding: 0;
