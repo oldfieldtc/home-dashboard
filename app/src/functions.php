@@ -1,4 +1,6 @@
 <?php
+define('__ROOT__', dirname(__DIR__));
+
 $env = file_get_contents(__ROOT__ . "/config/.env");
 $lines = explode("\n",$env);
 

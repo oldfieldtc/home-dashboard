@@ -1,5 +1,4 @@
 <?php
-echo "it works!\n";
-define('__ROOT__', dirname(__DIR__));
 
-require_once(__ROOT__ . '/src/functions.php');
+require_once(dirname(__DIR__) . '/src/functions.php');
+require __ROOT__ . '/src/router.php';
