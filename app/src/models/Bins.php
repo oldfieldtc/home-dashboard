@@ -4,7 +4,7 @@ namespace kiosk\models;
 class Bins extends FetchData {
     public function formatData( array $binData ) : array {
         $dateUtil = new DateUtil();
-        $weekData = $dateUtil->getDateTimeArray(7);
+        $weekData = $dateUtil->getDateArray(7);
         $binUpcomingWeekData = [];
 
         foreach ( $binData as $binDay ) {

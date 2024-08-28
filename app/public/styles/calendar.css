@@ -1,0 +1,47 @@
+.calendar {
+    &.dateHeading {
+        font-size: 2em;
+    }
+
+    & ul {
+        border-bottom: 2px solid #c2c2c2;
+    }
+
+    & li {
+        list-style-type: none;
+        font-size: 1.5em;
+        padding: 5px 5px 0 5px;
+        margin-bottom: 5px;
+
+        &:last-child {
+            margin-bottom: 0.5em;
+        }
+
+        &.google-event {
+            border-left: 3px solid red;
+        }
+        &.paprika-meal-item {
+            border-left: 3px solid #D84524;
+        }
+        &.binday-grey {
+            border-left: 3px solid grey;
+        }
+        &.binday-green {
+            border-left: 3px solid #4ee30e;
+        }
+        &.binday-brown {
+            border-left: 3px solid #aa7f04;
+        }
+        &.binday-burgundy {
+            border-left: 3px solid #800020;
+        }
+        &.binday-blue {
+            border-left: 3px solid #05b7f4;
+        }
+    }
+
+    &.subData {
+        color: #c2c2c2;
+        font-size: 0.8em;
+    }
+}
