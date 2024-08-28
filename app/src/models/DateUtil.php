@@ -18,4 +18,14 @@ class DateUtil {
         }
         return $dateArray;
     }
+
+    public function sortByDateDesc( array $dataArray ) : array {
+        array_multisort(array_column($dataArray, 'startDate'), SORT_DESC, $dataArray);
+        return $dataArray;
+    }
+
+    public function sortByDateAsc( array $dataArray ) : array {
+        array_multisort(array_column($dataArray, 'startDate'), SORT_ASC, $dataArray);
+        return $dataArray;
+    }
 }

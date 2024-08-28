@@ -1,7 +1,5 @@
 <?php
 namespace kiosk\models;
-include(__ROOT__ . "/src/models/FetchData.php");
-include(__ROOT__ . "/src/models/DateUtil.php");
 
 class Bins extends FetchData {
     public function formatData( array $binData ) : array {
@@ -14,7 +12,7 @@ class Bins extends FetchData {
                 $binUpcomingWeekData[] = array(
                     "title" => $binDay["title"],
                     "allDay" => true,
-                    "start" => $binDay["start"],
+                    "startDate" => $binDay["start"],
                     "class" => "binday-{$binDay['className']}"
                 );
             }
