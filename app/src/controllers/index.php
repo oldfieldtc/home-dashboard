@@ -11,13 +11,9 @@ $dateUtil->formatWeekCalendarData($binData);
 //var_dump($dateUtil->weekCalendarArray);
 //var_dump($binData);
 
-$meals = new Meals( "https://www.paprikaapp.com/api/v2/account/login");
-$mealsData = $meals->fetch(array(
-    CURLOPT_HEADER => 0,
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => "email=" . getenv('PAPRIKA_EMAIL') . "&password=" . getenv('PAPRIKA_PASSWORD')
-));
-var_dump($mealsData);
+$meals = new Meals();
+//var_dump($meals->getMeals());
+//$dateUtil->formatWeekCalendarData($meals->getMeals());
 
 //var_dump($dateUtil->sortByDateAsc($binData));
 
