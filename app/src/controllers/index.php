@@ -8,14 +8,9 @@ $dateUtil = new DateUtil();
 $bins = new Bins( getenv('BIN_DOMAIN') . "?rn=" .getenv('BIN_RN') );
 $binData = $bins->formatData($bins->fetch());
 $dateUtil->formatWeekCalendarData($binData);
-//var_dump($dateUtil->weekCalendarArray);
-//var_dump($binData);
 
 $meals = new Meals();
-//var_dump($meals->getMeals());
-//$dateUtil->formatWeekCalendarData($meals->getMeals());
-
-//var_dump($dateUtil->sortByDateAsc($binData));
+$dateUtil->formatWeekCalendarData( $meals->formatData($meals->getMeals()) );
 
 $calendarHtml = $dateUtil->outputWeekCalendar();
 

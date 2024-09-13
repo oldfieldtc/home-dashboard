@@ -9,6 +9,7 @@ class Meals extends FetchData {
     public string $authToken;
 
     public function __construct() {
+        parent::__construct($this->fetchUrl);
         $this->authToken = $this->authenticate();
     }
 
@@ -32,7 +33,24 @@ class Meals extends FetchData {
         return $mealsData;
     }
 
-    public function formatData( array $data ) : array {
+    public function formatData( array $data ) {
+        $dateUtil = new DateUtil();
+        $weekData = $dateUtil->getDateArray(7);
+        $mealsUpcomingWeekData = [];
 
+        // The fetched data is enclosed in a 'results' key. array_shift returns the data inside 'results'
+        foreach ( array_shift($data) as $meal ) {
+            $mealDate = new \DateTimeImmutable($meal['date']);
+
+            if ( in_array($mealDate->format('Y-m-d'), $weekData) ) {
+                $mealsUpcomingWeekData[] = array(
+                    "title" => trim($meal['name']),
+                    "allDay" => true,
+                    "startDate" => $mealDate->format('Y-m-d'),
+                    "class" => 'paprika-meal-item'
+                );
+            }
+        }
+        return $mealsUpcomingWeekData;
     }
 }
