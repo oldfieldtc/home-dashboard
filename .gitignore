@@ -3,3 +3,5 @@ mysql
 .env
 .env.production
 node_modules/
+vendor
+calendar-private-key.json

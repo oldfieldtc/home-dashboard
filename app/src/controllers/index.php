@@ -6,11 +6,10 @@ use kiosk\models\Meals;
 
 $dateUtil = new DateUtil();
 $bins = new Bins( getenv('BIN_DOMAIN') . "?rn=" .getenv('BIN_RN') );
-$binData = $bins->formatData($bins->fetch());
-$dateUtil->formatWeekCalendarData($binData);
+$dateUtil->formatWeekCalendarData( $bins->formatData( $bins->fetch() ) );
 
 $meals = new Meals();
-$dateUtil->formatWeekCalendarData( $meals->formatData($meals->getMeals()) );
+$dateUtil->formatWeekCalendarData( $meals->formatData( $meals->getMeals() ) );
 
 $calendarHtml = $dateUtil->outputWeekCalendar();
 
