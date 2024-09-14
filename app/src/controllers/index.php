@@ -13,7 +13,7 @@ $meals = new Meals();
 $dateUtil->formatWeekCalendarData( $meals->formatData( $meals->getMeals() ) );
 
 $googleCalendar = new GoogleCalendar();
-$googleCalendar->getEvents();
+$dateUtil->formatWeekCalendarData( $googleCalendar->getEvents() );
 
 $calendarHtml = $dateUtil->outputWeekCalendar();
 

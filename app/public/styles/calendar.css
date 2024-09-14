@@ -38,10 +38,10 @@
         &.binday-blue {
             border-left: 3px solid #05b7f4;
         }
-    }
 
-    &.subData {
-        color: #c2c2c2;
-        font-size: 0.8em;
+        & .subData {
+            color: #c2c2c2;
+            font-size: 0.8em;
+        }
     }
 }

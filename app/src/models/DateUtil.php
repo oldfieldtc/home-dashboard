@@ -66,6 +66,9 @@ class DateUtil {
                                 <span class="subData">
                                 <?php
                                     echo Date('H:i', strtotime($item['startTime'])) . ' - ' . Date('H:i', strtotime($item['endTime']));
+                                    if ( $item['location'] ) {
+                                        echo "</br>{$item['location']}";
+                                    }
                                 ?>
                                 </span>
                             <?php
