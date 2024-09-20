@@ -13,6 +13,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo pdo_mysql
 
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN pecl install xdebug apcu && docker-php-ext-enable xdebug apcu
 
 WORKDIR /var/www

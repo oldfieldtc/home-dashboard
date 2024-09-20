@@ -7,33 +7,45 @@ class Meals extends FetchData {
     private string $loginUrl = "https://www.paprikaapp.com/api/v2/account/login";
     private string $mealsEndpoint = "/meals/";
     public string $authToken;
+    public Cache $cache;
 
     public function __construct() {
         parent::__construct($this->fetchUrl);
         $this->authToken = $this->authenticate();
+        $this->cache = new Cache();
     }
 
     public function authenticate(): string {
-        $loginData = $this->fetch(array(
-            CURLOPT_HEADER => 0,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => "email=" . getenv('PAPRIKA_EMAIL') . "&password=" . getenv('PAPRIKA_PASSWORD'),
-            CURLOPT_URL => $this->loginUrl,
-        ));
-        return $loginData['result']['token'];
+        if ( $this->cache->fetchCache('mealAuthToken') ) {
+            return $this->cache->fetchCache('mealAuthToken');
+        } else {
+            $loginData = $this->fetch(array(
+                CURLOPT_HEADER => 0,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => "email=" . getenv('PAPRIKA_EMAIL') . "&password=" . getenv('PAPRIKA_PASSWORD'),
+                CURLOPT_URL => $this->loginUrl,
+            ));
+            //var_dump($loginData);
+            //if ( $loginData['error']['code'] === 0 ) {
+            //    echo "<p>{$loginData['error']['message']}</p>";
+            //}
+            //
+            //die();
+            $this->cache->cacheData($loginData['result']['token'], 'mealAuthToken');
+            return $loginData['result']['token'];
+        }
     }
 
     public function getMeals() : array {
-        $mealsData = $this->fetch(array(
+        return $this->fetch('meals', array(
             CURLOPT_HTTPGET => 1,
             CURLOPT_URL => "{$this->fetchUrl}{$this->mealsEndpoint}",
             CURLOPT_HTTPAUTH => CURLAUTH_BEARER,
             CURLOPT_XOAUTH2_BEARER => $this->authToken
         ));
-        return $mealsData;
     }
 
-    public function formatData( array $data ) {
+    public function formatData( array $data ): array {
         $dateUtil = new DateUtil();
         $weekData = $dateUtil->getDateArray(7);
         $mealsUpcomingWeekData = [];
