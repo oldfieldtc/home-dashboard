@@ -23,7 +23,7 @@ class GoogleCalendar {
             $dateUtil = new DateUtil();
             $dateUpcomingWeek = $dateUtil->getDateArray(7);
             $dateStart = new \DateTimeImmutable($dateUpcomingWeek[0]);
-            $dateEnd = new \DateTimeImmutable($dateUpcomingWeek[6]);
+            $dateEnd = new \DateTimeImmutable($dateUpcomingWeek[7]);
             $upcomingEvents = [];
 
             $events = $calendar->events->listEvents(getenv('GCAL_CALENDAR_ID'), array(
