@@ -10,7 +10,7 @@ class DateUtil {
         $this->weekCalendarArray = $this->createWeekCalendarArray();
     }
 
-    private function getDate( int $offset ) : string {
+    public function getDate( int $offset ) : string {
         return date("Y-m-d", strtotime("+$offset day"));
     }
 

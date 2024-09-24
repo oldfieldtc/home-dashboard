@@ -9,8 +9,8 @@ $dateUtil = new DateUtil();
 $bins = new Bins( getenv('BIN_DOMAIN') . "?rn=" .getenv('BIN_RN') );
 $dateUtil->formatWeekCalendarData( $bins->formatData( $bins->fetch('bins') ) );
 
-//$meals = new Meals();
-//$dateUtil->formatWeekCalendarData( $meals->formatData( $meals->getMeals() ) );
+$meals = new Meals();
+$dateUtil->formatWeekCalendarData( $meals->formatData( $meals->getMeals() ) );
 
 $googleCalendar = new GoogleCalendar();
 $dateUtil->formatWeekCalendarData( $googleCalendar->getEvents() );

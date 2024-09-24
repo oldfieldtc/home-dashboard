@@ -4,6 +4,7 @@ namespace kiosk\models;
 
 class Tasks extends FetchData {
     private string $authEndpoint = '/api/v1/login';
+    private string $taskEndpoint = '/api/v1/projects/8/tasks';
     private string $authToken;
     public Cache $cache;
     public function __construct() {
@@ -29,9 +30,46 @@ class Tasks extends FetchData {
                CURLOPT_POSTFIELDS => json_encode($data),
                CURLOPT_HTTPHEADER => array('Content-Type: application/json')
             ));
-            //var_dump($loginData);
+
             $this->cache->cacheData($loginData['token'], 'vikunjaAuthToken');
+
             return $loginData['token'];
         }
+    }
+
+    public function getTasks() : array {
+        return $this->fetch('tasks', array(
+            CURLOPT_HTTPGET => 1,
+            CURLOPT_URL => "{$this->fetchUrl}{$this->taskEndpoint}",
+            CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
+            CURLOPT_HTTPAUTH => CURLAUTH_BEARER,
+            CURLOPT_XOAUTH2_BEARER => $this->authToken
+        ));
+    }
+
+    public function formatData( array $data ) : array {
+        $dateUtil = new DateUtil();
+        $weekData = $dateUtil->getDateArray(7);
+        $tasksUpcomingWeekData = [];
+
+        foreach ( $data as $task ) {
+
+        }
+
+    }
+
+    // Only include tasks if they are due in the next week/month
+    private function includeTask( array $task ) : bool {
+        $taskDueDate = $task['due_date'];
+        $dateUtil = new DateUtil();
+
+        // Task repeats every weekly or fortnightly
+        if ( $task['repeat_after'] ===  604800 || $task['repeat_after'] ===  1209600 ) {
+            // Might need to format $taskDueDate
+            if ($taskDueDate > $dateUtil->getDate(7)) {
+                return false;
+            }
+        }
+        // TODO Check if monthly task
     }
 }

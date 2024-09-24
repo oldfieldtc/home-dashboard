@@ -4,33 +4,31 @@ namespace kiosk\models;
 
 class Meals extends FetchData {
     public string $fetchUrl = "https://www.paprikaapp.com/api/v2/sync";
-    private string $loginUrl = "https://www.paprikaapp.com/api/v2/account/login";
+    private string $loginUrl = "https://www.paprikaapp.com/api/v1/account/login";
     private string $mealsEndpoint = "/meals/";
     public string $authToken;
     public Cache $cache;
 
     public function __construct() {
+        $this->cache = new Cache();
         parent::__construct($this->fetchUrl);
         $this->authToken = $this->authenticate();
-        $this->cache = new Cache();
     }
 
     public function authenticate(): string {
         if ( $this->cache->fetchCache('mealAuthToken') ) {
             return $this->cache->fetchCache('mealAuthToken');
         } else {
-            $loginData = $this->fetch(array(
+            $loginData = $this->fetch('mealAuthToken', array(
                 CURLOPT_HEADER => 0,
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => "email=" . getenv('PAPRIKA_EMAIL') . "&password=" . getenv('PAPRIKA_PASSWORD'),
                 CURLOPT_URL => $this->loginUrl,
             ));
-            //var_dump($loginData);
-            //if ( $loginData['error']['code'] === 0 ) {
+            // TODO Throw error/exception instead of echoing
+            //if ( array_key_exists($loginData['error']['message']) && $loginData['error']['code'] === 0 ) {
             //    echo "<p>{$loginData['error']['message']}</p>";
             //}
-            //
-            //die();
             $this->cache->cacheData($loginData['result']['token'], 'mealAuthToken');
             return $loginData['result']['token'];
         }

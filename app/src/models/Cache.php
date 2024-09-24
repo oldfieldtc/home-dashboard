@@ -7,7 +7,7 @@ class Cache {
         return apcu_store($keyName, $data, 432000);
     }
 
-    public function fetchCache(string $keyName) : array|bool {
+    public function fetchCache(string $keyName) {
         return apcu_fetch($keyName);
     }
 

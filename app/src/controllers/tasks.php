@@ -3,6 +3,8 @@
 use \kiosk\models\Tasks;
 
 $tasks = new Tasks();
+$tasksData = $tasks->getTasks();
+var_dump($tasksData);
 
 $title = "Tasks";
 
