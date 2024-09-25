@@ -9,7 +9,7 @@ class FetchData {
 
     public function fetch(string $cacheKey, array $options = []) : array {
         $cache = new Cache();
-        if ( $cache->fetchCache($cacheKey) ) {
+        if ( !empty($cacheKey) && $cache->fetchCache($cacheKey) ) {
             //echo "{$cacheKey} is from cache!\n";
             return $cache->fetchCache($cacheKey);
         } else {

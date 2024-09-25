@@ -4,7 +4,8 @@ namespace kiosk\models;
 
 class Tasks extends FetchData {
     private string $authEndpoint = '/api/v1/login';
-    private string $taskEndpoint = '/api/v1/projects/8/tasks';
+    private string $tasksEndpoint = '/api/v1/projects/8/tasks';
+    private string $taskEndpoint = '/api/v1/tasks/';
     private string $authToken;
     public Cache $cache;
     public function __construct() {
@@ -38,9 +39,26 @@ class Tasks extends FetchData {
     }
 
     public function getTasks() : array {
-        return $this->fetch('tasks', array(
+        return $this->fetch('', array(
             CURLOPT_HTTPGET => 1,
-            CURLOPT_URL => "{$this->fetchUrl}{$this->taskEndpoint}",
+            CURLOPT_URL => "{$this->fetchUrl}{$this->tasksEndpoint}",
+            CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
+            CURLOPT_HTTPAUTH => CURLAUTH_BEARER,
+            CURLOPT_XOAUTH2_BEARER => $this->authToken
+        ));
+    }
+
+    public function updateTask($taskId, $repeatInterval) {
+        $data = array(
+          'done' => true,
+          'repeat_mode' => 0,
+          'repeat_after' => $repeatInterval
+        );
+        return $this->fetch('', array(
+            CURLOPT_HEADER => 0,
+            CURLOPT_POST => true,
+            CURLOPT_URL => "{$this->fetchUrl}{$this->taskEndpoint}{$taskId}",
+            CURLOPT_POSTFIELDS => json_encode($data),
             CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
             CURLOPT_HTTPAUTH => CURLAUTH_BEARER,
             CURLOPT_XOAUTH2_BEARER => $this->authToken
@@ -170,6 +188,7 @@ class Tasks extends FetchData {
             if ( count($index['monthly']) > 0 ) {
             ?>
                 <h3>Monthly</h3>
+                <ul>
             <?php
                 foreach ( $index['monthly'] as $task ) {
                     ?>
@@ -186,6 +205,9 @@ class Tasks extends FetchData {
                     </li>
                     <?php
                 }
+                ?>
+                </ul>
+                <?php
             }
         }
         ?>
