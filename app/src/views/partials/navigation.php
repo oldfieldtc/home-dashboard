@@ -6,7 +6,6 @@
             <ul>
                 <li><a href="/">Calendar</a></li>
                 <li><a href="/tasks/">Tasks</a></li>
-                <li><a href="/api/clear-cache/?origin=<?php echo $_SERVER['REQUEST_URI']; ?>">Clear cache</a></li>
             </ul>
         </nav>
     </div>

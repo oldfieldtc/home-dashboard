@@ -167,13 +167,14 @@ class Tasks extends FetchData {
                 <ul>
             <?php
                 foreach ( $index['weekly'] as $task ) {
+                    $inputId = str_replace(array(' ', '\''), array('-', ''), strtolower($label)) . "-" . str_replace(' ', '-', strtolower($task['title']));
                 ?>
                       <li>
-                          <label for="<?php echo "{$task['title']}-task"; ?>"><?php echo $task['title']; ?></label>
+                          <label for="<?php echo $inputId; ?>"><?php echo $task['title']; ?></label>
                           <input
                               type="checkbox"
                               class="vikunja-task"
-                              id="<?php echo "{$task['title']}-task"; ?>"
+                              id="<?php echo $inputId; ?>"
                               name="<?php echo $task['title']; ?>"
                               <?php echo $task['complete'] ? 'checked' : ''; ?>
                               data-id="<?php echo $task['id']; ?>"
