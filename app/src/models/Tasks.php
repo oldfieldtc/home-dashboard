@@ -50,26 +50,147 @@ class Tasks extends FetchData {
     public function formatData( array $data ) : array {
         $dateUtil = new DateUtil();
         $weekData = $dateUtil->getDateArray(7);
-        $tasksUpcomingWeekData = [];
+        $tasksByLabel = [];
 
         foreach ( $data as $task ) {
+            // Only use tasks that are within the repeat window
+            // If a task is checked as complete but has a repeater, Vikunja currently (04/2024) unchecks it and set the
+            // due date to the next due date/repeat cycle
+            // See https://community.vikunja.io/t/repeatable-tasks-appear-to-just-have-start-due-dates-reset-instead-of-creating-a-clone/468
+            // for developments on them tweaking this.
+            if ($this->includeTask($task)) {
+                foreach ($task['labels'] as $label) {
+                    // Check if the label key already exists in $tasksByLabel
+                    if ( array_key_exists($label['title'], $tasksByLabel) ) {
+                        // Add task to relevant label key
+                        if ( $task['repeat_after'] ===  604800 || $task['repeat_after'] === 1209600) {
+                            $tasksByLabel[ $label['title'] ]['weekly'][] = array(
+                                'title' => $task['title'],
+                                'complete' => $task['done'],
+                                'frequency' => $task['repeat_after'],
+                                'id' => $task['id']
+                            );
+                        }
+                        else if ( $task['repeat_after'] === 2592000 ) {
+                            $tasksByLabel[$label['title']]['monthly'][] = array(
+                                'title' => $task['title'],
+                                'complete' => $task['done'],
+                                'frequency' => $task['repeat_after'],
+                                'id' => $task['id']
+                            );
+                        }
+                    } else {
+                        // Create label key and add task to it
+                        if ( $task['repeat_after'] ===  604800 || $task['repeat_after'] === 1209600) {
+                            $tasksByLabel[$label['title']] = array(
+                                'weekly' => array(
+                                    array(
+                                        'title' => $task['title'],
+                                        'complete' => $task['done'],
+                                        'frequency' => $task['repeat_after'],
+                                        'id' => $task['id']
+                                    )
+                                ),
+                                'monthly' => array()
+                            );
+                        } else if ( $task['repeat_after'] === 2592000 ) {
+                            $tasksByLabel[$label['title']] = array(
+                                'weekly' => array(),
+                                'monthly' => array(
+                                    array(
+                                        'title' => $task['title'],
+                                        'complete' => $task['done'],
+                                        'frequency' => $task['repeat_after'],
+                                        'id' => $task['id']
+                                    )
+                                )
+                            );
+                        }
+                    }
+                }
 
+            }
         }
-
+        return $tasksByLabel;
     }
 
     // Only include tasks if they are due in the next week/month
     private function includeTask( array $task ) : bool {
-        $taskDueDate = $task['due_date'];
         $dateUtil = new DateUtil();
+        $taskDueDate = $dateUtil->getLocalDateTime( $task['due_date'] );
 
         // Task repeats every weekly or fortnightly
         if ( $task['repeat_after'] ===  604800 || $task['repeat_after'] ===  1209600 ) {
-            // Might need to format $taskDueDate
-            if ($taskDueDate > $dateUtil->getDate(7)) {
+            if ( $taskDueDate > $dateUtil->getLocalDateTime($dateUtil->getDate(7)) ) {
+                return false;
+            }
+        // Check if monthly task
+        } else if ($task['repeat_after'] === 2592000) {
+            if ($taskDueDate > $dateUtil->getLocalDateTime( $dateUtil->getDate(30)) ) {
                 return false;
             }
         }
-        // TODO Check if monthly task
+        return true;
+    }
+
+    public function outputTasks( array $tasks ) {
+        ob_start();
+        ?>
+        <div class="tasks">
+        <?php
+        foreach ( $tasks as $label => $index ) {
+        ?>
+            <h2><?php echo $label; ?></h2>
+        <?php
+            if ( count($index['weekly']) > 0 ) {
+            ?>
+                <h3>Weekly</h3>
+                <ul>
+            <?php
+                foreach ( $index['weekly'] as $task ) {
+                ?>
+                      <li>
+                          <label for="<?php echo "{$task['title']}-task"; ?>"><?php echo $task['title']; ?></label>
+                          <input
+                              type="checkbox"
+                              class="vikunja-task"
+                              id="<?php echo "{$task['title']}-task"; ?>"
+                              name="<?php echo $task['title']; ?>"
+                              <?php echo $task['complete'] ? 'checked' : ''; ?>
+                              data-id="<?php echo $task['id']; ?>"
+                              data-frequency="<?php echo $task['frequency']; ?>"
+                          >
+                      </li>
+                <?php
+                }
+                ?>
+                </ul>
+                <?php
+            }
+            if ( count($index['monthly']) > 0 ) {
+            ?>
+                <h3>Monthly</h3>
+            <?php
+                foreach ( $index['monthly'] as $task ) {
+                    ?>
+                    <li>
+                        <label for="<?php echo $task['title']; ?>"><?php echo $task['title']; ?></label>
+                        <input
+                            type="checkbox"
+                            class="vikunja-task"
+                            name="<?php echo $task['title']; ?>"
+                            <?php echo $task['complete'] ? 'checked' : ''; ?>
+                            data-id="<?php echo $task['id']; ?>"
+                            data-frequency="<?php echo $task['frequency']; ?>"
+                        >
+                    </li>
+                    <?php
+                }
+            }
+        }
+        ?>
+        </div>
+    <?php
+        return ob_get_clean();
     }
 }

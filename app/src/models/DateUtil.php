@@ -22,6 +22,10 @@ class DateUtil {
         return $dateArray;
     }
 
+    public function getLocalDateTime(string $dateTime) {
+        return date('Y-m-d H:i:s', strtotime($dateTime));
+    }
+
     public function sortByDateDesc( array $dataArray ) : array {
         array_multisort(array_column($dataArray, 'startDate'), SORT_DESC, $dataArray);
         return $dataArray;
