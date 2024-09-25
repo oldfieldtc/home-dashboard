@@ -1,5 +1,5 @@
 <?php
-$styles = [];
+$styles = ['tasks'];
 require(__ROOT__ . '/src/views/partials/head.php');
 ?>
 <h1>Tasks</h1>

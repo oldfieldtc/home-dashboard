@@ -111,10 +111,22 @@ body {
     color: white;
     margin: 0 1.5em;
     line-height: 1.5;
+    margin-bottom: 2em;
 
     background-color: #000000;
     /*opacity: 0.8;*/
     /*background-image:  radial-gradient(#5aa02c 0.75px, transparent 0.75px), radial-gradient(#5aa02c 0.75px, #000000 0.75px);*/
     /*background-size: 30px 30px;*/
     /*background-position: 0 0,15px 15px;*/
+
+    h1 {
+        font-size: 3em;
+    }
+    h2 {
+        font-size: 2em;
+    }
+    h3 {
+        font-size: 1.75em;
+    }
+
 }

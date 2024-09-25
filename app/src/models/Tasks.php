@@ -158,6 +158,7 @@ class Tasks extends FetchData {
         <?php
         foreach ( $tasks as $label => $index ) {
         ?>
+        <section class="label">
             <h2><?php echo $label; ?></h2>
         <?php
             if ( count($index['weekly']) > 0 ) {
@@ -209,8 +210,12 @@ class Tasks extends FetchData {
                 </ul>
                 <?php
             }
+            ?>
+        </section>
+        <?php
         }
         ?>
+
         </div>
     <?php
         return ob_get_clean();
