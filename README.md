@@ -1,4 +1,6 @@
-# Local PHP environment using Docker
+# Home kiosk/dashboard
+
+A calendar and tasks/chores dashboard for home use. Running with Docker, it's built with PHP and uses the Paprika, Vikunja, and Google Calendar APIs to generate a calendar of the upcoming week as well as a list of tasks that need to be done every week/month.
 
 ## Prerequisites
 
@@ -18,7 +20,13 @@
 ### env
 This project requires env variables to work. In the `/app/config/` directory, duplicate and/or rename the `example.env` file to `.env` and fill in the values.
 
+You will need accounts for [Paprika](https://www.paprikaapp.com/) and [Vikunja](https://vikunja.io/) (can also be self-hosted), 
+as well as the API URL for your bin data (the most important one!).
+
 #### Google Calendar
+To use the Google Calendar API for this project, you will need to create a service account and generate the JSON private key.
+Follow the '[Accessing Google APIs using Service account in Node.JS](https://web.archive.org/web/20230927185503/https://isd-soft.com/tech_blog/accessing-google-apis-using-service-account-node-js/)' walkthrough and rename the file to `calendar-private-key.json`
+once downloaded and place in the `/app/config/` directory.
 
 ### npm
 In the command line run `npm install` and it will install all the dependencies from the `package.json` file.
